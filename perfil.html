@@ -1,0 +1,49 @@
+{% extends "navbarperfiles.html" %}
+{% load static %}
+
+<head>
+  <title>{% block title %}Perfil de usuario{% endblock %}</title>
+</head>
+<body>
+    {% block content %}
+    <!--Navbar heredado-->
+      <div class="container-fluid" style="margin-top: 30px;">
+        <div class="row">
+            <div class="col-md-3">
+                <h4>Nombre</h4>
+                    {{ usuario.first_name }} {{ usuario.last_name }}
+                {% if perfil.imagenPerfil %}
+                    <img class="img-fluid" src="{{ perfil.imagenPerfil.url }}" style="margin-bottom: 20px;">
+                  {% else %}
+                    <img class="img-fluid" src="{% static 'images/perfilpic.png' %}" style="margin-bottom: 20px;">
+                  {% endif %}
+                <div class="list-group">
+                    <a href="{% url 'registro_perfil' %}" class="list-group-item list-group-item-action active">Modificar los datos de mi Perfil</a>
+                    <a href="{% url 'modificar_datos_de_cuenta' %}" class="list-group-item list-group-item-action active">Modificar los datos la cuenta</a>
+                    <a href="{% url 'modificar_password' %}" class="list-group-item list-group-item-action active">Modificar Password</a>
+                    <a href="#" class="list-group-item list-group-item-action active">Crear publicación</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h4>Nombre de usuario</h4>   
+                    {{ usuario.username }}
+                <h3>Biografia perfil</h3>
+                    {{ perfil.biografiaPerfil }} 
+            </div>
+            <div class="col-md-5">
+                <h3>Áreas de interés</h3>
+                    {{ perfil.areasDeInteres }}
+                <h3>Libros leídos</h3>
+                    {% for libro in perfil.librosLeidos.all %}
+                    <li>
+                        {{ libro.titulo }}
+                    </li>
+                    {% empty %}
+                    <li>Ninguno</li>
+                    {% endfor %}
+            </div>
+        </div>
+      </div>
+    {% endblock content %}
+</body>
+</html>
